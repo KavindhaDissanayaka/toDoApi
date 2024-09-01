@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using toDoApi.Data;
+using toDoApi.Models;
+using toDoApi.Models.Entities;
 
 namespace toDoApi.Controllers
 {
@@ -17,8 +19,35 @@ namespace toDoApi.Controllers
         [HttpGet]
         public IActionResult GetAllToDoTasks()
         {
-         var allTodos =   dbContext.toDos.ToList();
-            return Ok(allTodos);
+            return Ok(dbContext.toDos.ToList());
         }
+        [HttpPost]
+        public IActionResult AddNewTodoTask(AddToDoDto addToDoDto)
+        {
+            var newToDo = new toDo()
+            {
+                toDoNo = addToDoDto.toDoNo,
+                ToDoName = addToDoDto.ToDoName,
+                CreatedDate = addToDoDto.CreatedDate,
+                TargetDate = addToDoDto.TargetDate,
+            };
+            dbContext.toDos.Add(newToDo);
+            dbContext.SaveChanges();
+
+            return Ok(newToDo);
+        }
+
+        //[HttpGet]
+        //public Int32 getNextNumber()
+        //{
+        //    Int32 nextNo = 0;
+        //    if(dbContext.toDos.Any())
+        //    {
+        //        var maxNo = dbContext.toDos.Max(t => t.toDoNo);
+        //        nextNo = Convert.ToInt32(maxNo);
+        //    }
+        //    nextNo++;
+        //    return nextNo;
+        //}
     }
 }

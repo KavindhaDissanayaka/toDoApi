@@ -1,13 +1,10 @@
-﻿namespace toDoApi.Models.Entities
+﻿namespace toDoApi.Models
 {
-    public class toDo
+    public class AddToDoDto
     {
-        public Guid Id { get; set; }
         public required string ToDoName { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public required DateTime TargetDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public Boolean isDone { get; set; } = false;
         public required Int32 toDoNo { get; set; }
     }
 }
