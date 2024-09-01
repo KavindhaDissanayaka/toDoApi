@@ -36,18 +36,54 @@ namespace toDoApi.Controllers
 
             return Ok(newToDo);
         }
-
+        [HttpGet]
+        [Route("{id:guid}")]
+        public IActionResult getToDoBYID(Guid id)
+        {
+            var selectedTask = dbContext.toDos.Find(id);
+            if (selectedTask is null)
+            {
+                return NotFound();
+            }
+            return Ok(selectedTask);
+        }
+        [HttpPut]
+        [Route("{id:guid}")]
+        public IActionResult updatetask(Guid id, updateTask _updateTask)
+        {
+            var _Task = dbContext.toDos.Find(id);
+            if(_Task is null)
+            {
+                return NotFound();
+            }
+            _Task.EndDate = _updateTask.EndDate;
+            _Task.isDone = _updateTask.isDone;
+            dbContext.SaveChanges();
+            return Ok();
+        }
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public IActionResult DeleateTask(Guid id)
+        {
+            var _Task = dbContext.toDos.Find(id);
+            if(_Task is null)
+            {
+                return NotFound();
+            }
+            dbContext.toDos.Remove(_Task);
+            dbContext.SaveChanges();
+            return Ok();
+        }
         //[HttpGet]
-        //public Int32 getNextNumber()
+        //public Int32 nextTaskNumber()
         //{
         //    Int32 nextNo = 0;
-        //    if(dbContext.toDos.Any())
+        //    var _maxTask = dbContext.toDos.Max();
+        //    if(_maxTask != null )
         //    {
-        //        var maxNo = dbContext.toDos.Max(t => t.toDoNo);
-        //        nextNo = Convert.ToInt32(maxNo);
+        //        nextNo = _maxTask.toDoNo;
         //    }
-        //    nextNo++;
-        //    return nextNo;
+        //    return nextNo++;
         //}
     }
 }
