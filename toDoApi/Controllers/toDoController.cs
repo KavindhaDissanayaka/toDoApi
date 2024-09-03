@@ -24,9 +24,11 @@ namespace toDoApi.Controllers
         [HttpPost]
         public IActionResult AddNewTodoTask(AddToDoDto addToDoDto)
         {
+            var nexttodoNo = dbContext.toDos.Max(t => t.toDoNo);
+            nexttodoNo++;
             var newToDo = new toDo()
             {
-                toDoNo = addToDoDto.toDoNo,
+                toDoNo = nexttodoNo,
                 ToDoName = addToDoDto.ToDoName,
                 CreatedDate = addToDoDto.CreatedDate,
                 TargetDate = addToDoDto.TargetDate,
